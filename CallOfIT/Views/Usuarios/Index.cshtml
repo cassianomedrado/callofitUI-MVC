@@ -1,0 +1,57 @@
+﻿@model List<Usuario>
+@using System.Security.Claims
+@using CallOfIT.Controllers
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <button class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Cadastrar">Cadastrar</button>
+            </li>                     
+        </ul>
+    </div>
+    <div class="card-body">
+        <table id="tbUsuarios" name="tbChamadosAtribuidos" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var usuario in @Model)
+                    {
+                        <tr>
+                            <th>@usuario.Id</th>
+                            <td>@usuario.Nome</td>
+                            <td>@usuario.Username</td>
+                            <td>@usuario.Email</td>
+                            <td>
+                            @Html.ActionLink("Alterar", "Alterar", new {id = @usuario.Id})
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+<script>
+    $(document).ready( function ()
+    {
+       $('#tbUsuarios').DataTable();
+    } );
+</script>
+}

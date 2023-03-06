@@ -1,0 +1,33 @@
+﻿namespace CallOfIT.wwwroot.css
+
+.center-div-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.center-div {
+    align-self: center;
+}
+
+.input-group {
+    margin: 0.7vw;
+}
+
+.box {
+    width: 100px;
+    height: 300px;
+    background: #fff;
+}
+
+input {
+    width: 05vw;
+    height: 2vw;
+}
+
+.col-md-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+    margin:auto;
+}

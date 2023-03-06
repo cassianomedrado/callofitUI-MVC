@@ -1,0 +1,44 @@
+﻿@page
+@model CallOfIT.Views.Login.IndexModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/bootstrap.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/CallOfIT.styles.css" asp-append-version="true" />
+<link rel="stylesheet" href=~/css~/css/login-page.css />
+
+<div class="center-div-container">
+    <div class="card mb-3" style="max-width: 540px; margin: auto; margin-top: 8rem;">
+        <div class="row g-0">
+
+            <div class="col-md-4" style="margin: auto;">
+                <img src="~/Images/CallOfIT.png" class="img-fluid rounded-start">
+            </div>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Login</h5>
+                    <form asp-action="SignIn" asp-controller="Login" method="post">
+                        <div class="mb-3">
+                            <label for="exampleInputUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/bootstrap.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+

@@ -1,0 +1,18 @@
+div.container {
+    display:flex;
+}
+img{
+    margin: 1rem;
+}
+.card {
+    width: 18rem;
+    align-items: center;
+    margin: 1rem;
+}
+.card-body {
+    align-items: center;
+}
+.card-img-top {
+    width: 50%;
+    height: auto;
+}

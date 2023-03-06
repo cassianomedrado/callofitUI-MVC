@@ -1,0 +1,35 @@
+﻿namespace CallOfIT.wwwroot.css
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 48px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .sidebar-nav .nav-item {
+        display: block;
+    }
+
+        .sidebar-nav .nav-item .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #333;
+        }
+
+            .sidebar-nav .nav-item .nav-link:hover,
+            .sidebar-nav .nav-item .nav-link.active {
+                color: #007bff;
+                text-decoration: none;
+            }
