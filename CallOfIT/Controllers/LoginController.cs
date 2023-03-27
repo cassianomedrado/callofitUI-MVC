@@ -34,6 +34,8 @@ namespace CallOfIT.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(string username, string password)
         {
+            TempData.Clear();
+
             var reqLogin = await requestLogin(username, password);
             dynamic dataLogin = JsonConvert.DeserializeObject<object>(reqLogin.ToString());
             string token = dataLogin["token"].Value;
@@ -50,7 +52,7 @@ namespace CallOfIT.Controllers
                 Nome = dataUserLogin["nome"].Value,
                 Email = dataUserLogin["email"].Value,
                 Tipo_Usuario_Id = Convert.ToInt32(dataUserLogin["tipo_usuario_id"].Value),
-                Status = Convert.ToBoolean(dataUserLogin["tipo_usuario_id"].Value)
+                Status = Convert.ToBoolean(dataUserLogin["status"].Value)
             };
 
             if (LoggedInUser.Username == username && LoggedInUser.Status == true)
@@ -84,6 +86,7 @@ namespace CallOfIT.Controllers
             }
             else
             {
+                TempData["MsgError"] = $"Dados de acesso incorretos ou usuário desabilitado.";
                 return RedirectToAction("Index", "Login");
             }
 

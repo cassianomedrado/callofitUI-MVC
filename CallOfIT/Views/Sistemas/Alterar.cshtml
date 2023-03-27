@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model SistemaSuportado
+<div class="card">
+
+    @if (TempData.ContainsKey("MsgError"))
+    {
+        <div class="alert alert-danger">
+            @TempData["MsgError"]
+        </div>
+    }
+
+
+    <div class="card-body">
+        <form class="row g-3" asp-action="AlterarSistema" asp-controller="Sistemas" method="post">
+            <div class="col-md-12">
+                <label for="inputSistemaDtCriacao" class="form-label">Data Criação</label>
+                <input type="datetime" class="form-control" id="inputSistemaDtCriacao" name="inputSistemaDtCriacao" value="@Model.data_criacao.ToString("dd/MM/yyyy")" readonly>
+            </div>
+
+            <div class="col-md-12">
+                <label for="inputSistemaID" class="form-label">ID</label>
+                <input type="text" class="form-control" id="inputSistemaID" name="inputSistemaID" value="@Model.id" readonly>
+            </div>
+
+            <div class="col-md-12">
+                <label for="inputSistema" class="form-label">Sistema</label>
+                <input type="text" class="form-control" id="inputSistema" name="inputSistema" value="@Model.nome">
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+
+        </form>
+    </div>
+</div>

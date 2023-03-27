@@ -7,18 +7,17 @@
 
 <div class="card">
 
-@*    <div class="card-header">
-        @if (ViewBag.Mensagem != null)
-        {
-            <div class="alert alert-@ViewBag.Mensagem.Tipo" role="alert">
-                @ViewBag.Msg.Conteudo
-            </div>
-        }
-    </div>*@
+    @if (TempData.ContainsKey("MsgError"))
+    {
+        <div class="alert alert-danger">
+            @TempData["MsgError"]
+        </div>
+    }
+
 
     <div class="card-body">
         <form class="row g-3" asp-action="CadastrarUsuario" asp-controller="Usuarios" method="post">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="inputName" class="form-label">Username</label>
                 <input type="text" class="form-control" id="inputUsername" name="username">
             </div>
@@ -43,12 +42,11 @@
                 <input type="text" class="form-control" id="inputFullName" name="fullname">
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="inputUserType" class="form-label">User Type</label>
                 <select id="inputUserType" class="form-select" name="userType">
-                    <option>Administrator</option>
-                    <option>Technical</option>
-                    <option>Requester</option>
+                    <option value="1">Administrator</option>
+                    <option value="2">Technical</option>
                 </select>
             </div>
 
@@ -62,7 +60,7 @@
             </div>
 
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
             </div>
 
         </form>

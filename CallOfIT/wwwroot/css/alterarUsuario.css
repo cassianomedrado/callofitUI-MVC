@@ -1,0 +1,13 @@
+.card{
+    width: 28rem;
+    height: 45%;
+    display: flex;
+    flex-direction:column;
+    margin: 0 auto;
+}
+.card-body{
+    width: 100%;
+}
+.inputUserType{
+    width: 60%;
+}
