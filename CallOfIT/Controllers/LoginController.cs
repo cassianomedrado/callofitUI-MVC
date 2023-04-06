@@ -38,9 +38,7 @@ namespace CallOfIT.Controllers
 
             var reqLogin = await requestLogin(username, password);
             dynamic dataLogin = JsonConvert.DeserializeObject<object>(reqLogin.ToString());
-            string token = dataLogin["token"].Value;
-
-            TokenHolder.Token = token;
+            string token = dataLogin["token"].Value;            
 
             dynamic jsonDataUser = await GetUserByUsername(username, token);
             dynamic dataUserLogin = JsonConvert.DeserializeObject<object>(jsonDataUser);
@@ -54,6 +52,9 @@ namespace CallOfIT.Controllers
                 Tipo_Usuario_Id = Convert.ToInt32(dataUserLogin["tipo_usuario_id"].Value),
                 Status = Convert.ToBoolean(dataUserLogin["status"].Value)
             };
+
+            TokenHolder.Token = token;
+            TokenHolder.LoggedinUser = LoggedInUser.Username;
 
             if (LoggedInUser.Username == username && LoggedInUser.Status == true)
             {

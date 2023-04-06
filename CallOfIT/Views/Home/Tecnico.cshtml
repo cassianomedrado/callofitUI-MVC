@@ -1,38 +1,43 @@
-﻿@page
-@model CallOfIT.Views.Home.TecnicoModel
+﻿@model List<Chamado>
 @{
 }
 
-<table id="tbChamadosAtribuidos" name="tbChamadosAtribuidos" class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Sistema</th>
-            <th scope="col">Abertura</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Onbase</td>
-            <td>01/02/2023</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>CPFL</td>
-            <td>10/02/2023</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>ERP</td>
-            <td>13/02/2023</td>
-        </tr>
-    </tbody>
-</table>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">            
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <table id="tbChamadosAtribuidos" name="tbChamadosAtribuidos" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Data Criação</th>
+                    <th scope="col">Solicitante</th>
+                    <th scope="col">Data Limite</th>
+                    <th scope="col">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var system in @Model)
+                    {
+                        <tr>
+                            <td>@system.id</td>
+                            <td>@system.data_criacao.ToString("dd/MM/yyyy")</td>
+                            <td>@system.solicitante</td>
+                            <td>@system.data_limite.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @Html.ActionLink("Abrir", "AbrirChamadoUnit", new {id = @system.id}, new { @class = "btn btn-outline-secondary" })                                
+                            </td>                            
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 

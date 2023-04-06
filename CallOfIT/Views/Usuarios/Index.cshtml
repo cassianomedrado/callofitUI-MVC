@@ -29,7 +29,8 @@
                     <th style="text-align:center" scope="col">Username</th>
                     <th style="text-align:center" scope="col">Email</th>
                     <th style="text-align:center" scope="col">Status</th>
-                    <th style="text-align:center" scope="col">Ações</th>
+                    <th style="text-align:center" scope="col">Editar</th>
+                    <th style="text-align:center" scope="col">Alterar Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +45,18 @@
                             <td style="text-align:center"><input type="checkbox" asp-for="@usuario.Status" value="@usuario.Status" /></td>
                             <td style="text-align:center">
                                 @Html.ActionLink("Alterar", "Alterar", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
-                                @Html.ActionLink("Desabilitar", "InativarUsuario", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                            </td>
+                            <td style="text-align:center">
+                            @{
+                                    if(!usuario.Status)
+                                    {
+                                        @Html.ActionLink("Ativar", "AlterarStatus", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Desativar", "AlterarStatus", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                                    }
+                                }
                             </td>
                         </tr>
                     }

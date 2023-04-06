@@ -32,7 +32,7 @@ namespace CallOfIT.Controllers
         }
 
         public async Task<string> GetAllUsuarios()
-        {            
+        {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
             var response = await httpClient.GetAsync($"{endpoint}");
 
@@ -168,7 +168,7 @@ namespace CallOfIT.Controllers
             }
         }
 
-        public async Task<IActionResult> InativarUsuario(string username)
+        public async Task<IActionResult> AlterarStatus(string username)
         {
             TempData.Clear();
 
@@ -189,33 +189,37 @@ namespace CallOfIT.Controllers
                     Status = Convert.ToBoolean(dataUserLogin["status"].Value)
                 };
 
+                //Se Usuário Estiver Inativo passa a ser ativado
                 if (!userFound.Status)
                 {
-                    TempData["MsgError"] = $"O Usuário selecionado já está desabilizado, o processo não foi concluido.";
+                    userFound.Status = true;
+                }                
+                else
+                {
+                    userFound.Status = false;
+                }
+
+                string jsonData = JsonConvert.SerializeObject(userFound);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.Token);
+                var response = await httpClient.PostAsync($"{endpoint}/alterar-status", content);
+
+                if (response.IsSuccessStatusCode)
+                {
                     return RedirectToAction("Index", "Usuarios");
                 }
                 else
                 {
-                    var content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.Token);
-                    var response = await httpClient.PostAsync($"{endpoint}/inativar/{userFound.Id}", content);
+                    var reply = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("Index", "Usuarios");
-                    }
-                    else
-                    {
-                        var reply = await response.Content.ReadAsStringAsync();
+                    ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(reply);
+                    string mensagem = errorMessage.error[0].mensagem;
 
-                        ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(reply);
-                        string mensagem = errorMessage.error[0].mensagem;
+                    TempData["MsgError"] = $"A inativação do usuário não pode ser concluída. \n *{mensagem}.";
 
-                        TempData["MsgError"] = $"A inativação do usuário não pode ser concluída. \n *{mensagem}.";
-
-                        return RedirectToAction("Index", "Usuarios");
-                    }
+                    return RedirectToAction("Index", "Usuarios");
                 }
+
             }
             else
             {

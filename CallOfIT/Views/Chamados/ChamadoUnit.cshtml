@@ -1,4 +1,86 @@
-﻿@page
-@model CallOfIT.Views.Chamados.ChamadoUnitModel
+﻿@model Chamado
 @{
 }
+<div class="card">
+
+    @if (TempData.ContainsKey("MsgError"))
+    {
+                <div class="alert alert-danger">
+            @TempData["MsgError"]
+                </div>
+    }
+
+
+    <div class="card-body">
+        <div class="card-header">
+            <h4 style="text-align:center">Chamado</h4>
+        </div>
+
+        <form class="row g-3" asp-action="AlterarChamado" asp-controller="Chamados" method="post">
+            <div class="col-md-12">
+                <label for="inputID" class="form-label">ID</label>
+                <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputDtCriacao" class="form-label">Data Criação</label>
+                <input type="datetime" class="form-control" id="inputDtCriacao" name="inputDtCriacao" value="@Model.data_criacao.ToString("dd/MM/yyyy")" readonly>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputDtLimite" class="form-label">Data Limite</label>
+                <input type="datetime" class="form-control" id="inputDtLimite" name="inputDtLimite" value="@Model.data_limite.ToString("dd/MM/yyyy")">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputSolicitante" class="form-label">Solicitante</label>
+                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@TempData["solicitante"]" readonly>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputTipoChamado" class="form-label">Tipo Chamado</label>
+                <input type="text" class="form-control" id="inputTipoChamado" value="@TempData["tipoChamado"]">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputStatusChamado" class="form-label">Status Chamado</label>
+                <select id="inputStatusChamado" class="form-select" name="inputStatusChamado">
+                    @{
+                        foreach (var status in ViewBag.StatusChamados)
+                        {
+                            if (status.id == Model.status_chamado_id)
+                            {
+                              <option value="@status.id" selected>@status.descricao</option>
+                            }
+                            else
+                            {
+                               <option value="@status.id">@status.descricao</option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputTecnicoDesignado" class="form-label">Tecnico Designado</label>
+                <input type="text" class="form-control" id="inputTecnicoDesignado" name="inputTecnicoDesignado" value="@TempData["Tecnico"]">
+            </div>
+
+            <div class="mb-3">
+                <label for="inputDescricaoProblema" class="form-label">Descrição do Problema</label>
+                <textarea class="form-control" id="inputDescricaoProblema" rows="3">@Model.descricao_problema</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputDescricaoSolucao" class="form-label">Descrição da Solução</label>
+                <textarea class="form-control" id="inputDescricaoSolucao" rows="3">@Model.descricao_solucao</textarea>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
