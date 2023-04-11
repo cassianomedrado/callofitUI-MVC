@@ -26,6 +26,11 @@ namespace CallOfIT.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if (TokenHolder.Tipo_Usuario_Id == 2)
+                {
+                    return RedirectToAction("Tecnico", "Home");
+                }
+
                 return View();
             }
             else

@@ -21,6 +21,11 @@ namespace CallOfIT.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if (TokenHolder.Tipo_Usuario_Id == 2)
+                {
+                    return RedirectToAction("Tecnico", "Home");
+                }
+
                 List<SistemaSuportado> allSystem = new List<SistemaSuportado>();
                 string dataSystemJson = await GetAllSystem();
                 if (!String.IsNullOrEmpty(dataSystemJson))

@@ -23,6 +23,11 @@ namespace CallOfIT.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if (TokenHolder.Tipo_Usuario_Id == 2)
+                {
+                    return RedirectToAction("Tecnico", "Home");
+                }
+
                 List<Usuario> allUsuarios = new List<Usuario>();
                 string dataUserJson = await GetAllUsuarios();
                 if (!String.IsNullOrEmpty(dataUserJson))
