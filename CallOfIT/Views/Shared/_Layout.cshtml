@@ -36,14 +36,17 @@
                                         <a class="nav-link" asp-area="" asp-controller="Chamados" asp-action="Index">Chamados</a>
                                     </li>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Sistemas" asp-action="Index">Sistemas</a>
-                                    </li>
+                                    @if (TokenHolder.Tipo_Usuario_Id == 1)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-area="" asp-controller="Sistemas" asp-action="Index">Sistemas</a>
+                                        </li>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
-                                    </li>
-
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
+                                        </li>
+                                    }
+                
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">Sair</a>
                                     </li>
