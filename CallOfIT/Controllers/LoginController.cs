@@ -24,10 +24,12 @@ namespace CallOfIT.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Json(new
+                if (TokenHolder.Tipo_Usuario_Id == 2)
                 {
-                    Msg = "Authenticated"
-                });
+                    return RedirectToAction("Tecnico", "Home");
+                }
+
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -92,6 +94,7 @@ namespace CallOfIT.Controllers
 
             TokenHolder.Token = token;
             TokenHolder.LoggedinUser = LoggedInUser.Username;
+            TokenHolder.Tipo_Usuario_Id = LoggedInUser.Tipo_Usuario_Id;
 
             if (LoggedInUser.Username == username && LoggedInUser.Status == true)
             {
@@ -119,15 +122,13 @@ namespace CallOfIT.Controllers
                 else
                 {
                     return RedirectToAction("Tecnico", "Home");
-                }
-                
+                } 
             }
             else
             {
                 TempData["MsgError"] = $"Dados de acesso incorretos ou usuário desabilitado.";
                 return RedirectToAction("Index", "Login");
             }
-
         }
    
         public async Task<HttpResponseMessage> requestLogin(string username, string password)
