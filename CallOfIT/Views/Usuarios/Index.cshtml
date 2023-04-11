@@ -5,22 +5,44 @@
 }
 
 <div class="card">
+
+    @if (TempData.ContainsKey("MsgError"))
+    {
+        <div class="alert alert-danger">
+            @TempData["MsgError"]
+        </div>
+    }
+
     <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <button class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Cadastrar">Cadastrar</button>
-            </li>                     
-        </ul>
+        <h3 style="text-align:center">Usuários</h3>
+    </div>
+
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Home")'"><b>Voltar</b></button>
+                </li>
+            </ul>
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="btn btn-primary" asp-area="" asp-controller="Usuarios" asp-action="Cadastrar">Cadastrar</a>
+                </li>
+
+            </ul>
+        </div>
     </div>
     <div class="card-body">
         <table id="tbUsuarios" name="tbChamadosAtribuidos" class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Editar</th>
+                    <th style="text-align:center" scope="col">ID</th>
+                    <th style="text-align:center" scope="col">Nome</th>
+                    <th style="text-align:center" scope="col">Username</th>
+                    <th style="text-align:center" scope="col">Email</th>
+                    <th style="text-align:center" scope="col">Status</th>
+                    <th style="text-align:center" scope="col">Editar</th>
+                    <th style="text-align:center" scope="col">Alterar Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,8 +54,21 @@
                             <td>@usuario.Nome</td>
                             <td>@usuario.Username</td>
                             <td>@usuario.Email</td>
-                            <td>
-                            @Html.ActionLink("Alterar", "Alterar", new {id = @usuario.Id})
+                            <td style="text-align:center"><input type="checkbox" asp-for="@usuario.Status" value="@usuario.Status" /></td>
+                            <td style="text-align:center">
+                                @Html.ActionLink("Alterar", "Alterar", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                            </td>
+                            <td style="text-align:center">
+                            @{
+                                    if(!usuario.Status)
+                                    {
+                                        @Html.ActionLink("Ativar", "AlterarStatus", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Desativar", "AlterarStatus", new {username = @usuario.Username}, new { @class = "btn btn-outline-secondary" })
+                                    }
+                                }
                             </td>
                         </tr>
                     }
@@ -51,7 +86,22 @@
 <script>
     $(document).ready( function ()
     {
-       $('#tbUsuarios').DataTable();
+            $('#tbUsuarios').DataTable({
+                "language": {
+                    "info": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "infoFiltered": "(Filtrados de _MAX_ registros)",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "search": "Buscar:",
+                    "zeroRecords": "Nenhum registro encontrado",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    }
+                }
+            });
     } );
 </script>
 }

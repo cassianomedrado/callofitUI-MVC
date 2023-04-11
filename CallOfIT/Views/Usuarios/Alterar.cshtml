@@ -1,4 +1,71 @@
-﻿@page
-@model CallOfIT.Views.Usuarios.AlterarModel
-@{
-}
+﻿@model Usuario
+
+<link rel="stylesheet" href="~/css/alterarUsuario.css" type="text/css" />
+
+<div class="card">
+
+    @if (TempData.ContainsKey("MsgError"))
+    {
+        <div class="alert alert-danger">
+            @TempData["MsgError"]
+        </div>
+    }
+
+    <div class="card-header">
+        <h4 style="text-align:center">Alterar Usuário</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="row g-3" asp-action="AlterarCadastro" method="post">
+            <div class="col-md-12">
+                <label for="nome">ID</label>
+                <input type="text" class="form-control" id="id" name="id" value="@Model.Id" readonly>
+            </div>
+
+            <div class="col-md-12">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="@Model.Nome">
+            </div>
+
+            <div class="col-md-12">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="@Model.Email">
+            </div>
+
+            <div class="col-md-12">
+                <label for="username">Usuário</label>
+                <input type="text" class="form-control" id="username" name="username" value="@Model.Username">
+            </div>
+
+            <div class="col-md-12">
+                <label for="inputUserType" class="form-label">Tipo Usuário</label>
+                <select id="inputUserType" class="form-select" name="userType" value="@Model.Tipo_Usuario_Id">
+                    @{
+                        if(Model.Tipo_Usuario_Id == 1)
+                        {
+                            <option value="@Model.Tipo_Usuario_Id">Administrador</option>
+                            <option value="2">Technical</option>
+                        }
+                        else
+                        {
+                            <option value="@Model.Tipo_Usuario_Id">Tecnico</option>
+                            <option value="1">Administrator</option>
+                        }
+                    }
+                    
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div class="col-6">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Usuarios")'">Voltar</button>
+                </div></>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

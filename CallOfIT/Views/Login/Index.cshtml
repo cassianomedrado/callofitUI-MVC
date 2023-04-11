@@ -5,38 +5,57 @@
 }
 <link rel="stylesheet" href="~/css/bootstrap.css" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/CallOfIT.styles.css" asp-append-version="true" />
-<link rel="stylesheet" href=~/css~/css/login-page.css />
 
-<div class="center-div-container">
-    <div class="card mb-3" style="max-width: 540px; margin: auto; margin-top: 8rem;">
-        <div class="row g-0">
+<body>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="card mb-3" style="max-width: 540px; margin: auto; margin-top: 8rem;">
+            @if (TempData.ContainsKey("MsgError"))
+            {
+                <div id="MsgError" class="alert alert-danger alert-dismissible text-center" role="alert">
+                    @TempData["MsgError"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
 
-            <div class="col-md-4" style="margin: auto;">
-                <img src="~/Images/CallOfIT.png" class="img-fluid rounded-start">
+            <div class="card-header">
+                <h3 style="text-align:center">Call of IT</h3>
             </div>
+            <div class="row g-0">
 
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Login</h5>
-                    <form asp-action="SignIn" asp-controller="Login" method="post">
-                        <div class="mb-3">
-                            <label for="exampleInputUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
-                        </div>
+                <div class="col-md-4 text-center" style="margin: auto;">
+                    <img src="~/Images/CallOfIT.png" class="img-fluid rounded-start">
+                </div>
 
-                        <div class="mb-3">
-                            <label for="exampleInputPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        @*<h5 class="card-title">Login</h5>*@
+                        <form asp-action="SignIn" asp-controller="Login" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Usuário</label>
+                                <input type="text" class="form-control" id="username" name="username">
+                            </div>
 
-                        <button type="submit" class="btn btn-primary">Sign In</button>
-                    </form>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary align-content-center text-center">Entrar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+
+<script>
+        setTimeout(function() {
+        var errorAlert = document.getElementById('MsgError');
+        errorAlert.remove('MsgError');
+    }, 5000);
+</script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/bootstrap.js"></script>

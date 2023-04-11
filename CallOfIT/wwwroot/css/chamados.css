@@ -4,3 +4,6 @@
     flex-direction: column;
     margin: 0 auto;
 }
+.style-alert {
+    text-align: center;
+}

@@ -1,5 +1,44 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<Chamado>
+
+<div class="card">
+    <div class="card-header">
+        <h4 style="text-align:center">Chamados - Designados</h4>
+    </div>
+
+    <div class="card-body">
+        <table id="tbChamadosAtribuidos" name="tbChamadosAtribuidos" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Data Criação</th>
+                    <th scope="col">Solicitante</th>
+                    <th scope="col">Data Limite</th>
+                    <th scope="col">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var system in @Model)
+                    {
+                        <tr>
+                            <td>@system.id</td>
+                            <td>@system.data_criacao.ToString("dd/MM/yyyy")</td>
+                            <td>@system.solicitante</td>
+                            <td>@system.data_limite.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @Html.ActionLink("Abrir", "ChamadoUnit", new {id = @system.id}, new { @class = "btn btn-outline-secondary" })
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="container text-center">
+        <div class="row text-center ">
+            <div class="col-md-6 mb-3 mx-auto">
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Chamados")'"><b>Voltar</b></button>
+            </div>
+        </div>
+    </div>
+</div>

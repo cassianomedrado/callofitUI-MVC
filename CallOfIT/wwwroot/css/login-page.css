@@ -22,12 +22,18 @@
 }
 
 input {
-    width: 05vw;
-    height: 2vw;
+    height: 2.2rem;
 }
+
 
 .col-md-4 {
     flex: 0 0 auto;
     width: 33.33333333%;
     margin:auto;
+}
+
+body {
+    background: url("~/Images/backgroud_login.png");
+    background-size: cover;
+    background-position: center;
 }
