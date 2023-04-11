@@ -14,11 +14,23 @@
     }
 
     <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Cadastrar">Cadastrar</a>
-            </li>
-        </ul>
+        <h3 style="text-align:center">Usuários</h3>
+    </div>
+
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Home")'"><b>Voltar</b></button>
+                </li>
+            </ul>
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="btn btn-primary" asp-area="" asp-controller="Usuarios" asp-action="Cadastrar">Cadastrar</a>
+                </li>
+
+            </ul>
+        </div>
     </div>
     <div class="card-body">
         <table id="tbUsuarios" name="tbChamadosAtribuidos" class="table">
@@ -74,7 +86,22 @@
 <script>
     $(document).ready( function ()
     {
-       $('#tbUsuarios').DataTable();
+            $('#tbUsuarios').DataTable({
+                "language": {
+                    "info": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "infoFiltered": "(Filtrados de _MAX_ registros)",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "search": "Buscar:",
+                    "zeroRecords": "Nenhum registro encontrado",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    }
+                }
+            });
     } );
 </script>
 }

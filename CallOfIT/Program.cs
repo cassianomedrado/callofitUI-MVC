@@ -37,4 +37,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
+app.MapFallbackToController("NotFound", "Error");
+
 app.Run();

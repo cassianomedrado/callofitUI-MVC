@@ -21,14 +21,21 @@ namespace CallOfIT.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<Usuario> allUsuarios = new List<Usuario>();
-            string dataUserJson = await GetAllUsuarios();
-            if (!String.IsNullOrEmpty(dataUserJson))
+            if (User.Identity.IsAuthenticated)
             {
-                allUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(dataUserJson);
-            }
+                List<Usuario> allUsuarios = new List<Usuario>();
+                string dataUserJson = await GetAllUsuarios();
+                if (!String.IsNullOrEmpty(dataUserJson))
+                {
+                    allUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(dataUserJson);
+                }
 
-            return View(allUsuarios);
+                return View(allUsuarios);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }  
         }
 
         public async Task<string> GetAllUsuarios()
@@ -62,6 +69,39 @@ namespace CallOfIT.Controllers
                 tipo_usuario_id = form["userType"].FirstOrDefault(),
                 status = form["status"].Equals("on") ? true : false
             };
+
+            if (String.IsNullOrEmpty(dataUsuario.username))
+            {
+                TempData["MsgError"] = $"O nome usuário é obrigatório.";
+            }
+
+            if (String.IsNullOrEmpty(dataUsuario.senha))
+            {
+                TempData["MsgError"] = $"A senha é obrigatório.";
+            }
+
+            if (String.IsNullOrEmpty(dataUsuario.confirmaSenha))
+            {
+                TempData["MsgError"] = $"A confirmação da senha é obrigatório.";
+            }
+
+            if (String.IsNullOrEmpty(dataUsuario.email))
+            {
+                TempData["MsgError"] = $"O email é obrigatório.";
+            }
+
+            if (String.IsNullOrEmpty(dataUsuario.nome))
+            {
+                TempData["MsgError"] = $"O nome é obrigatório.";
+            }
+            if (String.IsNullOrEmpty(dataUsuario.username) || String.IsNullOrEmpty(dataUsuario.senha) ||
+                String.IsNullOrEmpty(dataUsuario.confirmaSenha) || String.IsNullOrEmpty(dataUsuario.email) ||
+                String.IsNullOrEmpty(dataUsuario.nome))
+            {
+
+                return RedirectToAction("Cadastrar", "Usuarios");
+            }
+
             string jsonData = JsonConvert.SerializeObject(dataUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.Token);

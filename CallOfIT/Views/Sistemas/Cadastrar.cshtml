@@ -1,28 +1,42 @@
 ﻿@page
 @model CallOfIT.Views.Sistemas.CadastrarModel
-@{
-}
-<div class="card">
+<link rel="stylesheet" href="~/css/cadastrarSistema.css" type="text/css" />
 
+<div class="card">
     @if (TempData.ContainsKey("MsgError"))
     {
-        <div class="alert alert-danger">
+        <div id="MsgError" class="alert alert-danger alert-dismissible text-center" role="alert">
             @TempData["MsgError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
+    <div class="card-header">
+        <h4 style="text-align:center">Cadastrar Sistema</h4>
+    </div>
 
     <div class="card-body">
-        <form class="row g-3" asp-action="CadastrarSistema" asp-controller="Sistemas" method="post">
-            <div class="col-md-12">
-                <label for="inputSistema" class="form-label">Sistema</label>
-                <input type="text" class="form-control" id="inputSistema" name="inputSistema">
-            </div>
+            <form class="row g-3" asp-action="CadastrarSistema" asp-controller="Sistemas" method="post">
+                <div class="col-md-12">
+                    <label for="inputSistema">Sistema</label>
+                    <input type="text" class="form-control" id="inputSistema" name="inputSistema">
+                </div>
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </div>
-
-        </form>
+                <div class="d-flex justify-content-between">
+                    <div class="col-6">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Sistemas")'">Voltar</button>
+                    </div></>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </div>
+            </form>
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        var errorAlert = document.getElementById('MsgError');
+        errorAlert.remove('MsgError');
+    }, 5000);
+</script>

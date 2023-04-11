@@ -9,11 +9,15 @@
 
     @if (TempData.ContainsKey("MsgError"))
     {
-        <div class="alert alert-danger">
+        <div id="MsgError" class="alert alert-danger alert-dismissible text-center" role="alert">
             @TempData["MsgError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
+    <div class="card-header">
+        <h4 style="text-align:center">Cadastrar Usuário</h4>
+    </div>
 
     <div class="card-body">
         <form class="row g-3" asp-action="CadastrarUsuario" asp-controller="Usuarios" method="post">
@@ -50,7 +54,7 @@
                 </select>
             </div>
 
-            <div class="col-12">
+            <div class="col-12 status-style">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="inputStatus" , name="status">
                     <label class="form-check-label" for="inputStatus">
@@ -59,10 +63,21 @@
                 </div>
             </div>
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <div class="d-flex justify-content-between">
+                <div class="col-6">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Usuarios")'">Voltar</button>
+                </div></>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
             </div>
-
         </form>
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        var errorAlert = document.getElementById('MsgError');
+        errorAlert.remove('MsgError');
+    }, 5000);
+</script>

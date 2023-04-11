@@ -19,13 +19,20 @@ namespace CallOfIT.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<SistemaSuportado> allSystem = new List<SistemaSuportado>();
-            string dataSystemJson = await GetAllSystem();
-            if (!String.IsNullOrEmpty(dataSystemJson))
+            if (User.Identity.IsAuthenticated)
             {
-                allSystem = JsonConvert.DeserializeObject<List<SistemaSuportado>>(dataSystemJson);
+                List<SistemaSuportado> allSystem = new List<SistemaSuportado>();
+                string dataSystemJson = await GetAllSystem();
+                if (!String.IsNullOrEmpty(dataSystemJson))
+                {
+                    allSystem = JsonConvert.DeserializeObject<List<SistemaSuportado>>(dataSystemJson);
+                }
+                return View(allSystem);
             }
-            return View(allSystem);
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
         public async Task<string> GetAllSystem()
         {
@@ -46,7 +53,6 @@ namespace CallOfIT.Controllers
 
         public async Task<IActionResult> Cadastrar()
         {
-            TempData.Clear();
             return View();           
         }
 
@@ -58,6 +64,13 @@ namespace CallOfIT.Controllers
             {
                 nome = form["inputSistema"].FirstOrDefault(),
             };
+
+            if(String.IsNullOrEmpty(dataSystem.nome)) {
+                TempData["MsgError"] = $"O campo nome é obrigatório.";
+
+                return RedirectToAction("Cadastrar", "Sistemas");
+            }
+
             string jsonData = JsonConvert.SerializeObject(dataSystem);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.Token);

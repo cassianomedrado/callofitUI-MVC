@@ -10,6 +10,7 @@
             @TempData["MsgError"]
         </div>
     }
+
     <div class="card-header">
         <h4 style="text-align:center">Alterar Usuário</h4>
     </div>
@@ -31,12 +32,12 @@
                 <input type="email" class="form-control" id="email" name="email" value="@Model.Email">
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <label for="username">Usuário</label>
                 <input type="text" class="form-control" id="username" name="username" value="@Model.Username">
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="inputUserType" class="form-label">Tipo Usuário</label>
                 <select id="inputUserType" class="form-select" name="userType" value="@Model.Tipo_Usuario_Id">
                     @{
@@ -55,7 +56,14 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <div class="d-flex justify-content-between">
+                <div class="col-6">
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Usuarios")'">Voltar</button>
+                </div></>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

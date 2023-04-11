@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using callofitAPI.Models;
 
 namespace CallOfIT.Controllers
 {
@@ -36,8 +37,34 @@ namespace CallOfIT.Controllers
         {
             TempData.Clear();
 
-            var reqLogin = await requestLogin(username, password);
-            dynamic dataLogin = JsonConvert.DeserializeObject<object>(reqLogin.ToString());
+            var response = await requestLogin(username, password);
+            var reply = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<ErrorMessage>(reply);
+                var i = 0;
+                if(result.error != null)
+                {
+                    foreach (var er in result.error)
+                    {
+                        i++;
+                        if (i == result.error.Count)
+                        {
+                            TempData["MsgError"] += er.mensagem;
+                        }
+                        else
+                        {
+                            TempData["MsgError"] += er.mensagem + "\n";
+                        }
+                    }
+                }
+    
+                return RedirectToAction("Index", "Login");
+            }
+
+            dynamic dataLogin = JsonConvert.DeserializeObject<object>(reply.ToString());
+
             string token = dataLogin["token"].Value;            
 
             dynamic jsonDataUser = await GetUserByUsername(username, token);
@@ -52,6 +79,16 @@ namespace CallOfIT.Controllers
                 Tipo_Usuario_Id = Convert.ToInt32(dataUserLogin["tipo_usuario_id"].Value),
                 Status = Convert.ToBoolean(dataUserLogin["status"].Value)
             };
+
+            if(LoggedInUser.Tipo_Usuario_Id == 3)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    await HttpContext.SignOutAsync();
+                }
+                TempData["MsgError"] = "Usuário não tem autorização para acessar o sistema administrativo.";
+                return RedirectToAction("Index", "Login");
+            }
 
             TokenHolder.Token = token;
             TokenHolder.LoggedinUser = LoggedInUser.Username;
@@ -93,7 +130,7 @@ namespace CallOfIT.Controllers
 
         }
    
-        public async Task<object> requestLogin(string username, string password)
+        public async Task<HttpResponseMessage> requestLogin(string username, string password)
         {
             var dataUsuario = new
             {
@@ -102,18 +139,7 @@ namespace CallOfIT.Controllers
             };
             string jsonData = JsonConvert.SerializeObject(dataUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync($"{endpoint}/login", content);
-           
-            if (response.IsSuccessStatusCode)
-            {
-                var reply = await response.Content.ReadAsStringAsync();
-                return reply;
-            }
-            else
-            {
-                var reply = await response.Content.ReadAsStringAsync();
-                return reply;
-            }
+            return await httpClient.PostAsync($"{endpoint}/login", content);
         }
 
         public async Task<object> GetUserByUsername(string username, string token)
