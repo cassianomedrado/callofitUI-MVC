@@ -211,7 +211,7 @@ namespace CallOfIT.Controllers
         {  
             var dataChamados = new
             {
-                id = id
+                tecnico_usuario_id = id
             };
             string jsonData = JsonConvert.SerializeObject(dataChamados);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
