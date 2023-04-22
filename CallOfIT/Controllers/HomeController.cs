@@ -41,11 +41,24 @@ namespace CallOfIT.Controllers
 
         public async Task<IActionResult> Tecnico()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                if (TokenHolder.Tipo_Usuario_Id == 1)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                
+            }
+           
             dynamic jsonDataUser = await GetUserByUsername(TokenHolder.LoggedinUser, TokenHolder.Token);
             dynamic dataUserLogin = JsonConvert.DeserializeObject<object>(jsonDataUser);            
             var dataUsuario = new
             {
-                tecnico_usuario_id = 10
+                tecnico_usuario_id = TokenHolder.Id
             };
             //Convert.ToInt32(dataUserLogin["id"].Value)
             string jsonData = JsonConvert.SerializeObject(dataUsuario);

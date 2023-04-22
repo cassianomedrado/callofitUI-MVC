@@ -132,6 +132,8 @@ namespace CallOfIT.Controllers
 
         public async Task<IActionResult> Cadastrar()
         {
+            List<TipoUsuario> tipoUsuario = await GetAllTipoUsuario();
+            ViewBag.TipoUsuario = tipoUsuario;
             return View();
         }
 
@@ -149,6 +151,9 @@ namespace CallOfIT.Controllers
                 Tipo_Usuario_Id = Convert.ToInt32(UserToChange["tipo_usuario_id"].Value),
                 Status = Convert.ToBoolean(UserToChange["status"].Value)
             };
+
+            List<TipoUsuario> tipoUsuario = await GetAllTipoUsuario();
+            ViewBag.TipoUsuario = tipoUsuario;
 
             return View(SelectedUser);
         }
@@ -271,6 +276,25 @@ namespace CallOfIT.Controllers
                 TempData["MsgError"] = $"A inativação do usuário não pode ser concluída. O usuário selecionado não foi localizado para concluir a operação.";
 
                 return RedirectToAction("Index", "Usuarios");
+            }
+        }
+
+
+
+        public async Task<List<TipoUsuario>> GetAllTipoUsuario()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
+            var response = await httpClient.GetAsync($"https://localhost:7252/api/TipoUsuario");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                List<TipoUsuario> objTipoUsuario = JsonConvert.DeserializeObject<List<TipoUsuario>>(reply);
+                return objTipoUsuario;
+            }
+            else
+            {
+                return null;
             }
         }
 

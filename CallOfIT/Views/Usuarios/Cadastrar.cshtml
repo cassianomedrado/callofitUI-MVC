@@ -46,11 +46,19 @@
                 <input type="text" class="form-control" id="inputFullName" name="fullname">
             </div>
 
-            <div class="col-md-6">
+            <div class="col-12">
                 <label for="inputUserType" class="form-label">Tipo de Usuário</label>
                 <select id="inputUserType" class="form-select" name="userType">
-                    <option value="1">Administrator</option>
-                    <option value="2">Technical</option>
+                @{
+                    if(ViewBag.TipoUsuario != null)
+                    {
+                        foreach (var tipoUsuario in ViewBag.TipoUsuario)
+                        {
+                            <option value="@tipoUsuario.id">@tipoUsuario.descricao</option>                            
+                        }
+                        <option value="@null" selected>Selecione o Tipo do Usuário</option>
+                    }
+                }                    
                 </select>
             </div>
 

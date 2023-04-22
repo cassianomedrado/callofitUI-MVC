@@ -40,18 +40,19 @@
             <div class="col-md-12">
                 <label for="inputUserType" class="form-label">Tipo Usuário</label>
                 <select id="inputUserType" class="form-select" name="userType" value="@Model.Tipo_Usuario_Id">
-                    @{
-                        if(Model.Tipo_Usuario_Id == 1)
+                 @{
+                    foreach (var tipoUsuario in ViewBag.TipoUsuario)
+                    {
+                        if (tipoUsuario.id == Model.Tipo_Usuario_Id)
                         {
-                            <option value="@Model.Tipo_Usuario_Id">Administrador</option>
-                            <option value="2">Technical</option>
+                            <option value="@tipoUsuario.id" selected>@tipoUsuario.descricao</option>
                         }
                         else
                         {
-                            <option value="@Model.Tipo_Usuario_Id">Tecnico</option>
-                            <option value="1">Administrator</option>
+                            <option value="@tipoUsuario.id">@tipoUsuario.descricao</option>
                         }
                     }
+                  }
                     
                 </select>
             </div>

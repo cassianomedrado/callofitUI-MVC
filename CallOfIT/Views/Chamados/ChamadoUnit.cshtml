@@ -5,9 +5,9 @@
 
     @if (TempData.ContainsKey("MsgError"))
     {
-                <div class="alert alert-danger">
+        <div class="alert alert-danger">
             @TempData["MsgError"]
-                </div>
+        </div>
     }
 
 
@@ -22,6 +22,25 @@
                 <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly>
             </div>
 
+            <div class="col-md-12">
+                <label for="inputSistemasSuportados" class="form-label">Sistemas Suportados</label>
+                <select type="text" class="form-control" id="inputSistemasSuportados"name="inputSistemasSuportados" value="">
+                @{
+                    foreach (var sistemasSuportados in ViewBag.SistemasSuportados)
+                    {
+                        if (sistemasSuportados.id == Model.tipo_chamado_id)
+                        {
+                            <option value="@sistemasSuportados.id" selected>@sistemasSuportados.nome</option>
+                        }
+                        else
+                        {
+                            <option value="@sistemasSuportados.id">@sistemasSuportados.nome</option>
+                        }
+                    }
+                }
+                </select>
+            </div>
+
             <div class="col-md-6">
                 <label for="inputDtCriacao" class="form-label">Data Criação</label>
                 <input type="datetime" class="form-control" id="inputDtCriacao" name="inputDtCriacao" value="@Model.data_criacao.ToString("dd/MM/yyyy")" readonly>
@@ -34,12 +53,26 @@
 
             <div class="col-md-6">
                 <label for="inputSolicitante" class="form-label">Solicitante</label>
-                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@TempData["solicitante"]" readonly>
+                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@ViewBag.Solicitante.Nome" readonly>
             </div>
 
             <div class="col-md-6">
                 <label for="inputTipoChamado" class="form-label">Tipo Chamado</label>
-                <input type="text" class="form-control" id="inputTipoChamado" value="@TempData["tipoChamado"]">
+                <select type="text" class="form-control" id="inputTipoChamado"name="inputTipoChamado" value="">
+                @{
+                    foreach (var tipoChamado in ViewBag.TiposChamado)
+                    {
+                        if (tipoChamado.id == Model.tipo_chamado_id)
+                        {
+                            <option value="@tipoChamado.id" selected>@tipoChamado.descricao</option>
+                        }
+                        else
+                        {
+                            <option value="@tipoChamado.id">@tipoChamado.descricao</option>
+                        }
+                    }
+                }
+                </select>
             </div>
 
             <div class="col-md-6">
@@ -50,31 +83,79 @@
                         {
                             if (status.id == Model.status_chamado_id)
                             {
-                              <option value="@status.id" selected>@status.descricao</option>
+                                <option value="@status.id" selected>@status.descricao</option>
                             }
                             else
                             {
-                               <option value="@status.id">@status.descricao</option>
+                                <option value="@status.id">@status.descricao</option>
                             }
 
                         }
                     }
                 </select>
             </div>
+            @{
+                if (TokenHolder.Tipo_Usuario_Id == 2)
+                {
+                    <div class="col-md-6">
+                        <label for="inputTecnicoDesignado" class="form-label">Tecnico Designado</label>
 
-            <div class="col-md-6">
-                <label for="inputTecnicoDesignado" class="form-label">Tecnico Designado</label>
-                <input type="text" class="form-control" id="inputTecnicoDesignado" name="inputTecnicoDesignado" value="@TempData["Tecnico"]">
-            </div>
+                        <select id="inputTecnicoDesignado" class="form-select" name="inputTecnicoDesignado" disabled>
+                        @{
+                            foreach (var tecnico in ViewBag.Tecnicos)
+                            {
+                                if (tecnico.Id == Model.tecnico_usuario_id)
+                                {
+                                <option value="@tecnico.Id" selected>@tecnico.Nome</option>
+                                }
+                            }
+
+                        }
+                            
+
+                        </select>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6">
+                        <label for="inputTecnicoDesignado" class="form-label">Tecnico Designado</label>
+
+                        <select id="inputTecnicoDesignado" class="form-select" name="inputTecnicoDesignado">
+                        @{
+                            if(Model.tecnico_usuario_id == null)
+                            {
+                                <option value="null" selected>A Designar</option>
+                            }
+                            foreach (var tecnico in ViewBag.Tecnicos)
+                            {
+                                if (tecnico.Id == Model.tecnico_usuario_id)
+                                {
+                                    <option value="@tecnico.Id" selected>@tecnico.Nome</option>
+                                }
+                                else
+                                {
+                                    <option value="@tecnico.Id">@tecnico.Nome</option>
+                                }
+                            }
+
+                        }                            
+
+                        </select>
+                    </div>
+                }
+
+            }
+
 
             <div class="mb-3">
                 <label for="inputDescricaoProblema" class="form-label">Descrição do Problema</label>
-                <textarea class="form-control" id="inputDescricaoProblema" rows="3">@Model.descricao_problema</textarea>
+                <textarea class="form-control" id="inputDescricaoProblema" name="inputDescricaoProblema" rows="3">@Model.descricao_problema</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="inputDescricaoSolucao" class="form-label">Descrição da Solução</label>
-                <textarea class="form-control" id="inputDescricaoSolucao" rows="3">@Model.descricao_solucao</textarea>
+                <textarea class="form-control" id="inputDescricaoSolucao" name="inputDescricaoSolucao" rows="3">@Model.descricao_solucao</textarea>
             </div>
 
             <div class="container text-center">
@@ -88,8 +169,8 @@
                 </div>
 
 
-                   
-               
+
+
             </div>
         </form>
     </div>
