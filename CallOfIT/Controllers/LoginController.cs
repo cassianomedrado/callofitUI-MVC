@@ -95,6 +95,7 @@ namespace CallOfIT.Controllers
             TokenHolder.Token = token;
             TokenHolder.LoggedinUser = LoggedInUser.Username;
             TokenHolder.Tipo_Usuario_Id = LoggedInUser.Tipo_Usuario_Id;
+            TokenHolder.Id = LoggedInUser.Id;
 
             if (LoggedInUser.Username == username && LoggedInUser.Status == true)
             {

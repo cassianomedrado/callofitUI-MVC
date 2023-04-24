@@ -29,7 +29,7 @@
                             <td>@system.solicitante</td>
                             <td>@system.data_limite.ToString("dd/MM/yyyy")</td>
                             <td>
-                                @Html.ActionLink("Abrir", "AbrirChamadoUnit", new {id = @system.id}, new { @class = "btn btn-outline-secondary" })                                
+                                @Html.ActionLink("Abrir", "ChamadoUnit", "Chamados",new {id = @system.id}, new { @class = "btn btn-outline-secondary" })                                
                             </td>                            
                         </tr>
                     }

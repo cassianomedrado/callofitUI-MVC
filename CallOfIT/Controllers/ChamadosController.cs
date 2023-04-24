@@ -103,34 +103,42 @@ namespace CallOfIT.Controllers
             TempData.Clear();
             var chamado = await GetChamadosByID(id);
             Chamado objChamado = JsonConvert.DeserializeObject<Chamado>(chamado);
+
             if (objChamado != null)
             {
-                Usuario tecnico = new Usuario();
-                if (objChamado.tecnico_usuario_id != null)
-                {
-                    tecnico = await GetUsuarioByID(objChamado.tecnico_usuario_id);                     
-                }
-
-
+                #region Status Chamado
                 var statusChamados = await GetStatusChamdoByID(objChamado.status_chamado_id);
-                Usuario solicitante = await GetUsuarioByID(objChamado.usuario_id);
-                var tipoChamado = await GetTipoChamadoByID(objChamado.tipo_chamado_id);
-                
-                
-
-               
-                TipoChamado objTipoChamado = JsonConvert.DeserializeObject<TipoChamado>(tipoChamado);
                 StatusChamados objStatusChamados = JsonConvert.DeserializeObject<StatusChamados>(statusChamados);
-               
-
                 TempData["statusChamados"] = $"{objStatusChamados.descricao}";
-                TempData["solicitante"] = $"{solicitante.Nome}";
-                TempData["tipoChamado"] = $"{objTipoChamado.descricao}";
-                TempData["Tecnico"] = $"{(tecnico == null ? "" : tecnico.Nome)}";
+                #endregion
 
+                #region Tipo Chamado
+                var tiposChamado = await GetTipoChamadoByID();
+                List<TipoChamado> allTiposChamado = JsonConvert.DeserializeObject<List<TipoChamado>>(tiposChamado);
+                ViewBag.TiposChamado = allTiposChamado;
+                #endregion
+
+                #region Solicitante
+                Usuario solicitante = await GetUsuarioByID(objChamado.usuario_id);
+                ViewBag.Solicitante = solicitante;
+                #endregion
+
+                #region Status Chamado
                 var allStatusChamados = await GetAllStatusChamados();
                 ViewBag.StatusChamados = allStatusChamados;
-                
+                #endregion
+
+                #region Tecnico Designado
+                var allTecnico = await GetAllTecnico();
+                ViewBag.Tecnicos = allTecnico;
+                #endregion
+
+                #region Sistema Suportado
+                var objSistemasSuportados = await GetSistemasSuportado();
+                List<SistemaSuportado> sistemasSuportados = JsonConvert.DeserializeObject<List<SistemaSuportado>>(objSistemasSuportados);
+                ViewBag.SistemasSuportados = sistemasSuportados;
+                #endregion
+
                 return View(objChamado);
             }
             else
@@ -232,10 +240,10 @@ namespace CallOfIT.Controllers
             }
             return usuario;
         }
-        public async Task<string> GetTipoChamadoByID(int id)
+        public async Task<string> GetTipoChamadoByID()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
-            var response = await httpClient.GetAsync($"https://localhost:7252/api/TipoChamado/{id}");
+            var response = await httpClient.GetAsync($"https://localhost:7252/api/TipoChamado");
 
             if (response.IsSuccessStatusCode)
             {
@@ -248,6 +256,23 @@ namespace CallOfIT.Controllers
                 return reply;
             }
         }
+        public async Task<string> GetSistemasSuportado()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
+            var response = await httpClient.GetAsync($"https://localhost:7252/api/SistemaSuportado");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                return reply;
+            }
+            else
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                return reply;
+            }
+        }
+
         public async Task<List<StatusChamados>> GetAllStatusChamados()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
@@ -266,21 +291,59 @@ namespace CallOfIT.Controllers
             }
         }
 
+        public async Task<List<Usuario>> GetAllTecnico()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
+            var response = await httpClient.GetAsync($"https://localhost:7252/api/Usuario");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                List<Usuario> objUsers = JsonConvert.DeserializeObject<List<Usuario>>(reply);
+                var technicians = objUsers.Where(tec => tec.Tipo_Usuario_Id == 2).ToList();
+                return technicians;
+            }
+            else
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                return null;
+            }
+        }
+
+        public async Task<List<Usuario>> GetAllUsuario()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{TokenHolder.Token}");
+            var response = await httpClient.GetAsync($"https://localhost:7252/api/Usuario");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                List<Usuario> objUsers = JsonConvert.DeserializeObject<List<Usuario>>(reply);
+                return objUsers;
+            }
+            else
+            {
+                var reply = await response.Content.ReadAsStringAsync();
+                return null;
+            }
+        }
+
         public async Task<IActionResult> AlterarChamado(IFormCollection form)
         {
             TempData.Clear();
 
             var dataChamado = new
             {
-                id = form["id"].FirstOrDefault(),
-                data_criacao = form["inputDtCriacao"].FirstOrDefault(),
-                data_limite = form["inputDtLimite"].FirstOrDefault(),
+                id = form["inputID"].FirstOrDefault(),
+                sistema_suportado_id = form["inputSistemasSuportados"].FirstOrDefault(),
+                data_criacao = DateTime.Parse(form["inputDtCriacao"].FirstOrDefault()),
+                data_limite = DateTime.Parse(form["inputDtLimite"].FirstOrDefault()),
                 solicitante = form["inputSolicitante"].FirstOrDefault(),
-                tipo_chamado_id = form["inputTipoChamado"].FirstOrDefault(),
+                tipo_chamado_id = form["inputTipoChamado"].FirstOrDefault(), 
                 status_chamado_id = form["inputStatusChamado"].FirstOrDefault(),
                 tecnico_usuario_id = form["inputTecnicoDesignado"].FirstOrDefault(),
-                descricao_problema = form["inputDescricaoProblema"].FirstOrDefault(),
-                descricao_solucao = form["inputDescricaoSolucao"].FirstOrDefault(),
+                descricao_problema = form["inputDescricaoProblema"].FirstOrDefault(), 
+                descricao_solucao = form["inputDescricaoSolucao"].FirstOrDefault(), 
             };
 
             string jsonData = JsonConvert.SerializeObject(dataChamado);
