@@ -1,10 +1,15 @@
 ﻿@model List<SistemaSuportado>
 @{
 }
+
+<link rel="stylesheet" href="~/css/sistemasSuportado.css" asp-append-version="true" />
+
 <div class="card">
-    <div class="card-header">
-        <h3 style="text-align:center">Sistemas Suportados</h3>
+    <div class="card-header d-flex align-items-center">
+        <img src="~/Images/gif/systems.gif" class="icon-css mr-3">
+        <h4 class="text-center mb-0 flex-grow-1">Sistemas Suportados</h4>
     </div>
+
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <ul class="nav nav-pills card-header-pills">
@@ -22,7 +27,7 @@
     </div>
 
     <div class="card-body">
-        <table id="tbSistemasSuportados" name="tbSistemasSuportados" class="table">
+        <table id="tbSistemasSuportados" name="tbSistemasSuportados" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>

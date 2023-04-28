@@ -1,6 +1,7 @@
 ﻿@model Chamado
-@{
-}
+
+<link rel="stylesheet" href="~/css/chamadosUnit.css" asp-append-version="true" />
+
 <div class="card">
 
     @if (TempData.ContainsKey("MsgError"))
@@ -10,21 +11,21 @@
         </div>
     }
 
-
     <div class="card-body">
-        <div class="card-header">
-            <h4 style="text-align:center">Chamado</h4>
+        <div class="card-header d-flex align-items-center">
+            <img src="~/Images/gif/clipboard.gif" class="icon-css">
+            <h4 class="text-center mb-0 flex-grow-1">CHAMADO</h4>
         </div>
 
         <form class="row g-3" asp-action="AlterarChamado" asp-controller="Chamados" method="post">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <label for="inputID" class="form-label">ID</label>
-                <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly>
+                <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly disabled>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <label for="inputSistemasSuportados" class="form-label">Sistemas Suportados</label>
-                <select type="text" class="form-control" id="inputSistemasSuportados"name="inputSistemasSuportados" value="">
+                <select type="text" class="form-control" id="inputSistemasSuportados"name="inputSistemasSuportados" disabled  value="">
                 @{
                     foreach (var sistemasSuportados in ViewBag.SistemasSuportados)
                     {
@@ -48,12 +49,12 @@
 
             <div class="col-md-6">
                 <label for="inputDtLimite" class="form-label">Data Limite</label>
-                <input type="datetime" class="form-control" id="inputDtLimite" name="inputDtLimite" value="@Model.data_limite.ToString("dd/MM/yyyy")">
+                <input type="date" class="form-control" id="inputDtLimite" name="inputDtLimite" value="@Model.data_limite.ToString("yyyy-MM-dd")">
             </div>
 
             <div class="col-md-6">
                 <label for="inputSolicitante" class="form-label">Solicitante</label>
-                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@ViewBag.Solicitante.Nome" readonly>
+                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@ViewBag.Solicitante.Nome" readonly disabled>
             </div>
 
             <div class="col-md-6">
@@ -150,7 +151,7 @@
 
             <div class="mb-3">
                 <label for="inputDescricaoProblema" class="form-label">Descrição do Problema</label>
-                <textarea class="form-control" id="inputDescricaoProblema" name="inputDescricaoProblema" rows="3">@Model.descricao_problema</textarea>
+                <textarea class="form-control" id="inputDescricaoProblema" name="inputDescricaoProblema" rows="3" readonly disabled>@Model.descricao_problema</textarea>
             </div>
 
             <div class="mb-3">
