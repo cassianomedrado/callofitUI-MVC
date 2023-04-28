@@ -1,6 +1,6 @@
 ﻿@model List<Chamado>
 
-<link rel="stylesheet" href="~/css/chamados.css" type="text/css" />
+<link rel="stylesheet" href="~/css/chamados.css" asp-append-version="true" />
 
 @if (TempData.ContainsKey("MsgError"))
 {
@@ -11,14 +11,14 @@
     </div>
 }
 
-
 <div class="card">
-    <div class="card-header">
-        <h3 style="text-align:center">Fila de Chamados</h3>
+    <div class="card-header d-flex align-items-center">
+        <img src="~/Images/gif/document.gif" class="icon-css mr-3">
+        <h4 class="text-center mb-0 flex-grow-1">Fila de Chamados</h4>
     </div>
-    <div class="card-body">
 
-        <table id="tbFilasChamados" name="tbFilasChamados" class="table">
+    <div class="card-body">
+        <table id="tbFilasChamados" name="tbFilasChamados" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Filas</th>

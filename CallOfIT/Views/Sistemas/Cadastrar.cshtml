@@ -1,6 +1,7 @@
 ﻿@page
 @model CallOfIT.Views.Sistemas.CadastrarModel
-<link rel="stylesheet" href="~/css/cadastrarSistema.css" type="text/css" />
+
+<link rel="stylesheet" href="~/css/cadastrarSistema.css" asp-append-version="true" />
 
 <div class="card">
     @if (TempData.ContainsKey("MsgError"))
@@ -11,8 +12,9 @@
         </div>
     }
 
-    <div class="card-header">
-        <h4 style="text-align:center">Cadastrar Sistema</h4>
+    <div class="card-header d-flex align-items-center">
+        <img src="~/Images/gif/systems.gif" class="icon-css mr-3">
+        <h4 class="text-center mb-0 flex-grow-1">Cadastrar Sistema</h4>
     </div>
 
     <div class="card-body">

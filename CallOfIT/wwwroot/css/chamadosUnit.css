@@ -1,17 +1,12 @@
 .card {
-    width: 28rem;
-    height: 45%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    text-align: center;
     background-color: lightsteelblue;
 }
-.card-body{
-    width: 100%;
-}
-.inputUserType{
-    width: 60%;
+.style-alert {
+    text-align: center;
 }
 
 .icon-css {

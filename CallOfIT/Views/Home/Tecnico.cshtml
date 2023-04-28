@@ -1,15 +1,16 @@
 ﻿@model List<Chamado>
-@{
-}
+
+<link rel="stylesheet" href="~/css/tecnico.css" asp-append-version="true" />
 
 <div class="card">
-    <div class="card-header">
-        <h3 style="text-align:center">Chamados - Técnico</h3>
+    <div class="card-header d-flex align-items-center">
+        <img src="~/Images/gif/testing.gif" class="icon-css">
+        <h4 class="text-center mb-0 flex-grow-1">Chamados - Técnico</h4>
     </div>
 
     <div class="card-body">
 
-        <table id="tbChamadosAtribuidos" name="tbChamadosAtribuidos" class="table">
+        <table id="tbChamadosAtribuidos" name="tbChamadosAtribuidos" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>

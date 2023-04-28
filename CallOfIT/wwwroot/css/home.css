@@ -16,3 +16,21 @@ img{
     width: 50%;
     height: auto;
 }
+
+.container {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    width: 18rem;
+    flex-basis: 100%;
+}
+
+@media screen and (max-width: 767px) {
+    .card {
+        width: 100%;
+    }
+}
