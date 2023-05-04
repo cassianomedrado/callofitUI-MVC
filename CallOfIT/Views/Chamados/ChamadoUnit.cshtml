@@ -20,12 +20,12 @@
         <form class="row g-3" asp-action="AlterarChamado" asp-controller="Chamados" method="post">
             <div class="col-md-6">
                 <label for="inputID" class="form-label">ID</label>
-                <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly disabled>
+                <input type="text" class="form-control" id="inputID" name="inputID" value="@Model.id" readonly>
             </div>
 
             <div class="col-md-6">
                 <label for="inputSistemasSuportados" class="form-label">Sistemas Suportados</label>
-                <select type="text" class="form-control" id="inputSistemasSuportados"name="inputSistemasSuportados" disabled  value="">
+                <select type="text" class="form-control" id="inputSistemasSuportados"name="inputSistemasSuportados" value="">
                 @{
                     foreach (var sistemasSuportados in ViewBag.SistemasSuportados)
                     {
@@ -54,7 +54,7 @@
 
             <div class="col-md-6">
                 <label for="inputSolicitante" class="form-label">Solicitante</label>
-                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@ViewBag.Solicitante.Nome" readonly disabled>
+                <input type="text" class="form-control" id="inputSolicitante" name="inputSolicitante" value="@ViewBag.Solicitante.Nome" readonly>
             </div>
 
             <div class="col-md-6">
@@ -101,7 +101,7 @@
                     <div class="col-md-6">
                         <label for="inputTecnicoDesignado" class="form-label">Tecnico Designado</label>
 
-                        <select id="inputTecnicoDesignado" class="form-select" name="inputTecnicoDesignado" disabled>
+                        <select id="inputTecnicoDesignado" class="form-select" name="inputTecnicoDesignado">
                         @{
                             foreach (var tecnico in ViewBag.Tecnicos)
                             {
@@ -151,7 +151,7 @@
 
             <div class="mb-3">
                 <label for="inputDescricaoProblema" class="form-label">Descrição do Problema</label>
-                <textarea class="form-control" id="inputDescricaoProblema" name="inputDescricaoProblema" rows="3" readonly disabled>@Model.descricao_problema</textarea>
+                <textarea class="form-control" id="inputDescricaoProblema" name="inputDescricaoProblema" rows="3" readonly>@Model.descricao_problema</textarea>
             </div>
 
             <div class="mb-3">

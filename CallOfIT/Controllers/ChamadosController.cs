@@ -330,7 +330,7 @@ namespace CallOfIT.Controllers
 
         public async Task<IActionResult> AlterarChamado(IFormCollection form)
         {
-            TempData.Clear();
+            //TempData.Clear();
 
             var dataChamado = new
             {
@@ -341,10 +341,12 @@ namespace CallOfIT.Controllers
                 solicitante = form["inputSolicitante"].FirstOrDefault(),
                 tipo_chamado_id = form["inputTipoChamado"].FirstOrDefault(), 
                 status_chamado_id = form["inputStatusChamado"].FirstOrDefault(),
-                tecnico_usuario_id = form["inputTecnicoDesignado"].FirstOrDefault(),
+                tecnico_usuario_id = form["inputTecnicoDesignado"].FirstOrDefault() == "null" ? null : form["inputTecnicoDesignado"].FirstOrDefault(),
                 descricao_problema = form["inputDescricaoProblema"].FirstOrDefault(), 
                 descricao_solucao = form["inputDescricaoSolucao"].FirstOrDefault(), 
             };
+
+            var teste = form["inputTecnicoDesignado"].FirstOrDefault();
 
             string jsonData = JsonConvert.SerializeObject(dataChamado);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
